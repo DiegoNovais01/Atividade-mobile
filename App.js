@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,28 +7,46 @@ import {
   Button,
   TouchableOpacity
 } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function App() {
+  const [visivelSenha, setVisivelSenha] = useState(false)
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Bem vindo!</Text>
       <Text style={styles.subtitle}>Entre para continuar</Text>
-      
+
       <View style={styles.form}>
         <TextInput
           placeholder='Email'
           style={styles.input}
         />
-        <TextInput
-          placeholder='Senha'
-          style={styles.input}
-        />
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Entrar</Text>
-      </TouchableOpacity>
+        <View style={styles.passwordContainer}>
+          <TextInput
+            placeholder='Senha'
+            secureTextEntry={!visivelSenha}
+            style={[styles.input, styles.inputPassword]}
+          />
+          <TouchableOpacity
+            onPress={() => setVisivelSenha(v => !v)}
+            style={styles.eyeButton}
+            accessibilityLabel={visivelSenha ? 'Ocultar senha' : 'Mostrar senha'}
+          >
+            <MaterialCommunityIcons
+              name={visivelSenha ? 'eye-off' : 'eye'}
+              size={22}
+              color="#777"
+            />
+          </TouchableOpacity>
+        </View>
 
-      <Text style={styles.link}>Esqueceu a senha?</Text>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Entrar</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.link}>Esqueceu a senha?</Text>
 
       </View>
     </View>
@@ -89,5 +108,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 15,
     fontSize: 15
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  inputPassword: {
+    flex: 1,
+    marginBottom: 0
+  },
+  eyeButton: {
+    padding: 10
   }
 });
