@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   inputPassword: {
     flex: 1,
-    marginBottom: 0
+    marginBottom: 0,
   },
   eyeButton: {
     padding: 10
