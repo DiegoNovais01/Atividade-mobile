@@ -25,7 +25,6 @@ export default function App() {
 
         <View style={styles.passwordContainer}>
           <TextInput
-            placeholder='Senha'
             secureTextEntry={!visivelSenha}
             style={[styles.input, styles.inputPassword]}
           />
