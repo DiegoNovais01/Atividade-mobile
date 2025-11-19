@@ -8,6 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { router } from "expo-router";
 
 export default function App() {
   const [visivelSenha, setVisivelSenha] = useState(false)
@@ -25,6 +26,7 @@ export default function App() {
 
         <View style={styles.passwordContainer}>
           <TextInput
+            placeholder='Senha'
             secureTextEntry={!visivelSenha}
             style={[styles.input, styles.inputPassword]}
           />
