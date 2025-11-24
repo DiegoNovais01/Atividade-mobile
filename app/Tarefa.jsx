@@ -6,7 +6,8 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Modal
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -55,6 +56,19 @@ export default function App() {
     }
   };
 
+  const getStatusLabel = (statusTask) => {
+    switch (statusTask) {
+      case 'concluido':
+        return 'Concluído';
+      case 'emAndamento':
+        return 'Em andamento';
+      case 'pendente':
+        return 'Pendente';
+      default:
+        return '';
+    }
+  };
+
 
   const colors = useDark ? {
     bg: "#0a0a0a",
@@ -64,7 +78,12 @@ export default function App() {
     succes: "#10b931",
     warning: "#f59e0b",
     accent: "#ff6b00",
-    subText: "#666"
+    subText: "#888",
+    error: "#ef4444",
+    card: "#1a1a1a",
+    accent: "#ff6b00",
+    border: "#333",
+    input: "#2a2a2a"
   } : {
     bg: "#f5f5f5",
     text: "#1a1a1a",
@@ -73,7 +92,12 @@ export default function App() {
     succes: "#10b931",
     warning: "#f59e0b",
     accent: "#ff6b00",
-    subText: "#666"
+    subText: "#666",
+    error: "#ef4444",
+    card: "#fff",
+    accent: "#ff6b00",
+    border: "#c0c0c0",
+    input: "#fff"
   }
 
   return (
@@ -139,11 +163,9 @@ export default function App() {
             <Text style={[{ color: colors.text }]}>{status.pendente}</Text>
             <Text style={[{ color: colors.text }]}>Concluído</Text>
           </View>
-
-
         </View>
 
-        {useTask.length == 0 ?
+        {useTask.length === 0 ?
           (
             <Text>Nenhuma tarefa</Text>
           ) : (
@@ -158,7 +180,44 @@ export default function App() {
                     size={24}
                     color={getStatusColors(t.status)}
                   />
-                  <Text>{t.desc}</Text>
+                  <View style={styles.todoInfo} >
+                    <Text
+                      style={[
+                        styles.subTitle,
+                        { color: colors.text },
+                        t.status === "concluido" && styles.todoCompleted
+                      ]}
+                    >{t.desc}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.todoStatus,
+                        { color: getStatusColors(t.status) }
+                      ]}>
+                      {getStatusLabel(t.status)}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={[styles.todoActions]}>
+                  <TouchableOpacity
+                    style={styles.actionButton}
+                  >
+                    <Ionicons
+                      name="create-outline"
+                      size={20}
+                      color={colors.accent}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.actionButton}
+                  >
+                    <Ionicons
+                      name="trash-outline"
+                      size={20}
+                      color={colors.error}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
             ))
@@ -195,20 +254,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 4
   },
-  statusContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 13,
-    marginBottom: 20
-  },
-  statusCard: {
-    flex: 1,
-    minWidth: "47%",
-    borderRadius: 16,
-    padding: 13,
-    alignItems: "center",
-    gap: 4
-  },
   headerSubtitle: {
     fontSize: 14,
     marginTop: 4
@@ -242,5 +287,50 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2
+  },
+  todoLeft: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12
+  },
+  todoInfo: {
+    flex: 1,
+    gap: 4
+  },
+  todoCompleted: {
+    textDecorationLine: "line-through",
+    opacity: 0.6
+  },
+  todoStatus: {
+    fontSize: 12,
+    fontWeight: "500"
+  },
+  todoActions: {
+    flexDirection: "row",
+    gap: 8
+  },
+  actionButton: {
+    padding: 8
+  },
+  fab: {
+    position: "absolute",
+    right: 20,
+    button: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0, height: 4
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8
+  },
+  modalOverlay: {
+    flex: 8
   }
 })

@@ -111,14 +111,21 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   passwordContainer: {
-    flexDirection: 'row',
-    alignItems: 'center'
+    position: 'relative',
+    width: '100%'
   },
   inputPassword: {
-    flex: 1,
+    paddingRight: 50,
     marginBottom: 0,
   },
   eyeButton: {
-    padding: 10
+    position: 'absolute',
+    right: 8,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 44,
+    height: '100%'
   }
 });
