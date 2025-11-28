@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import Campo from "../components/Campo"
+import Btn from "../components/Btn";
 
 export default function App() {
   const [useDark, setDark] = useState(false)
@@ -20,6 +22,19 @@ export default function App() {
     { id: 3, desc: "estudar react native", status: "emAndamento" },
     { id: 4, desc: "estudar react native", status: "concluido" },
   ])
+  const [modalVisible, setmodalVisible] = useState(false)
+  const [statusTodo, setStatusTodo] = useState("emAndamento")
+  const [useNewTask, setNewTask] = useState("")
+
+  function addTask() {
+    setTask([...useTask, {
+      id: 2,
+      desc: useNewTask,
+      status: statusTodo
+    }])
+    setmodalVisible(false)
+    setNewTask("")
+  }
 
   const getStatus = () => {
     const total = useTask.length
@@ -100,11 +115,24 @@ export default function App() {
     input: "#fff"
   }
 
+  const closeModal = () => {
+    setmodalVisible(false)
+  }
+
+  const openModal = () => {
+    setmodalVisible(true)
+  }
+
   return (
     <KeyboardAvoidingView style={[styles.container, { backgroundColor: colors.bg }]}>
 
       <View style={styles.header}>
-        <View>
+
+        <TouchableOpacity style={styles.backButton}>
+          <Text style={[{}, { color: colors.text }]}>Voltar</Text>
+        </TouchableOpacity>
+
+        <View style={styles.headerCenter}>
           <Text style={[styles.headerTitle, { color: colors.text }]}>
             Minhas tarefas
           </Text>
@@ -112,14 +140,16 @@ export default function App() {
             Organize seu dia
           </Text>
         </View>
+
         <TouchableOpacity onPress={() => setDark(!useDark)}>
           <Ionicons
-            name="sunny"
+            name={useDark ? "moon" : "sunny"}
             size={24}
             onPress={() => { setDark(!useDark) }}
             style={[{ color: colors.iconColor }]}
           />
         </TouchableOpacity>
+
       </View>
 
       <ScrollView style={styles.content}>
@@ -225,6 +255,123 @@ export default function App() {
 
       </ScrollView>
 
+      <TouchableOpacity
+        style={[styles.fab, { backgroundColor: colors.accent }]}
+        onPress={() => openModal()}
+        activeOpacity={0.8}
+      >
+        <Ionicons
+          name="add"
+          size={28}
+          color={"#fff"}
+        />
+      </TouchableOpacity>
+
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={closeModal}
+      >
+        <View style={[styles.modalOverlay, { backgroundColor: 'rgba(0,0,0,0.4)' }]}>
+          <View style={[styles.modalContent, { backgroundColor: colors.card }]}>
+
+            <View style={styles.modalHeader}>
+
+              <Text style={[styles.modalTitle, { color: colors.text }]}>Nova Tarefa</Text>
+
+              <TouchableOpacity>
+                <Ionicons
+                  name="close"
+                  size={24}
+                  color={colors.subText}
+                />
+              </TouchableOpacity>
+
+            </View>
+
+            <View style={styles.modalOnly}>
+
+              <Text style={[styles.label, { color: colors.text }]}>Título</Text>
+              <Campo
+                st="campo"
+                title="Digite o título da tarefa..."
+                valor={useNewTask}
+                onText={setNewTask}
+              />
+              <Text style={[styles.label, { color: colors.text }]}>Status</Text>
+              <View style={[styles.statusButtons]}>
+                <TouchableOpacity style={[styles.statusButton, {
+                  backgroundColor:
+                    statusTodo === "pendente"
+                      ? colors.subText
+                      : colors.input,
+                  borderColor: colors.border
+                }]}
+                  onPress={() => setStatusTodo("pendente")}
+                >
+                  <Text
+                    style={[styles.statusButtonText, {
+                      color:
+                        statusTodo === "pendente"
+                          ? "#fff"
+                          : colors.text,
+                    }]}
+                  > Pendente</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[styles.statusButton, {
+                  backgroundColor:
+                    statusTodo === "emAndamento"
+                      ? colors.warning
+                      : colors.input,
+                  borderColor: colors.border
+                }]}
+                  onPress={() => setStatusTodo("emAndamento")}
+                >
+                  <Text
+                    style={[styles.statusButtonText, {
+                      color:
+                        statusTodo === "emAndamento"
+                          ? "#fff"
+                          : colors.text,
+                    }]}
+                  > Em andaento</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[styles.statusButton, {
+                  backgroundColor:
+                    statusTodo === "concluido"
+                      ? colors.succes
+                      : colors.input,
+                  borderColor: colors.border
+                }]}
+                  onPress={() => setStatusTodo("concluido")}
+                >
+                  <Text
+                    style={[styles.statusButtonText, {
+                      color:
+                        statusTodo === "concluido"
+                          ? "#fff"
+                          : colors.text,
+                    }]}
+                  > concluido</Text>
+                </TouchableOpacity>
+
+              </View>
+            </View>
+
+            <View style={styles.modalFooter}>
+              <View style={{ flex: 1, marginRight: 8 }}>
+                <Btn title="Cancelar" variant="outline" onPress={closeModal} />
+              </View>
+              <View style={{ flex: 1, marginLeft: 8 }}>
+                <Btn title="Adicionar" onPress={addTask} />
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </KeyboardAvoidingView >
   );
 }
@@ -250,9 +397,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "700"
   },
-  headerSubtitle: {
-    fontSize: 14,
-    marginTop: 4
+  headerCenter: {
+    flex: 1,
+    marginLeft: 12,
+    alignItems: 'flex-start',
+  },
+  backButton: {
+    paddingRight: 8,
   },
   headerSubtitle: {
     fontSize: 14,
@@ -317,7 +468,7 @@ const styles = StyleSheet.create({
   fab: {
     position: "absolute",
     right: 20,
-    button: 20,
+    bottom: 20,
     width: 60,
     height: 60,
     borderRadius: 30,
@@ -330,8 +481,59 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8
+    ,
+    zIndex: 100
   },
   modalOverlay: {
-    flex: 8
+    flex: 1,
+    justifyContent: 'flex-end',
+    width: '100%'
+  },
+  modalContent: {
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    padding: 20,
+    maxHeight: "80%"
+  },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 28
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "700"
+  },
+  modalBody: {
+    gap: 15,
+    marginBottom: 16
+  },
+  label: {
+    borderRadius: 12,
+    borderWidth: 1,
+    padding: 14,
+    fontSize: 15
+  },
+  statusButtons: {
+    flexDirection: "row",
+    gap: 8
+  },
+  statusButton: {
+    flex: 1,
+    borderRadius: 10,
+    borderWidth: 1,
+    paddingVertical: 12,
+    alignItems: "center"
+  },
+  statusButtonText: {
+    fontSize: 13,
+    fontWeight: "600"
+  },
+  modalFooter: {
+    flexDirection: "row",
+    justifyContent: 'space-between',
+    gap: 8,
+    marginTop: 16
   }
 })
