@@ -5,14 +5,40 @@ import {
   View,
   TextInput,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
+import Btn from '../components/Btn';
 
 export default function App() {
-  const [visivelSenha, setVisivelSenha] = useState(false)
+  const router = useRouter()
 
+  const [visivelSenha, setVisivelSenha] = useState(false)
+  const [ useValueSenha , setValueSenha ] = useState("")
+  const [ useValueEmail , setValueEmail ] = useState("")
+  const [ error , setError ] = useState(false)
+  const [ errorMessage , setErrorMessage ] = useState("")
+  const [ loading , setLoading ] = useState(false)
+
+  function entrar() {
+    if (useValueEmail === "") {
+      setErrorMessage("Email inválido")
+      setError(true)
+    } else if (useValueSenha.length < 6) {
+      setError(true)
+      setErrorMessage("A senha tem que ter mais de 6 caracteres.")
+    }
+    else {
+      setError(false)
+      setLoading(true)
+      setTimeout(() => {
+        router.push("/Tarefa")
+      }, 2000)
+    }
+  }
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Bem vindo!</Text>
@@ -22,6 +48,8 @@ export default function App() {
         <TextInput
           placeholder='Email'
           style={styles.input}
+          value={useValueEmail}
+          onChangeText={setValueEmail}
         />
 
         <View style={styles.passwordContainer}>
@@ -29,6 +57,8 @@ export default function App() {
             placeholder='Senha'
             secureTextEntry={!visivelSenha}
             style={[styles.input, styles.inputPassword]}
+            value={useValueSenha}
+            onChangeText={setValueSenha}
           />
           <TouchableOpacity
             onPress={() => setVisivelSenha(v => !v)}
@@ -43,9 +73,16 @@ export default function App() {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Entrar</Text>
-        </TouchableOpacity>
+        {error && <Text>{errorMessage}</Text>} 
+
+        {loading ? (
+          <ActivityIndicator
+            size={"small"}
+            color="#ff6b00"
+            style={{ marginTop: 20 }} />
+        ) : (
+          <Btn title="Entrar" onPress={entrar}/>)
+        }
 
         <Text style={styles.link}>Esqueceu a senha?</Text>
 
