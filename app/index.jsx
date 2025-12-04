@@ -10,17 +10,17 @@ import {
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from "expo-router";
-import Btn from '../components/Btn';
+import Btn from '../src/components/Btn';
 
 export default function App() {
   const router = useRouter()
 
   const [visivelSenha, setVisivelSenha] = useState(false)
-  const [ useValueSenha , setValueSenha ] = useState("")
-  const [ useValueEmail , setValueEmail ] = useState("")
-  const [ error , setError ] = useState(false)
-  const [ errorMessage , setErrorMessage ] = useState("")
-  const [ loading , setLoading ] = useState(false)
+  const [useValueSenha, setValueSenha] = useState("")
+  const [useValueEmail, setValueEmail] = useState("")
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
+  const [loading, setLoading] = useState(false)
 
   function entrar() {
     if (useValueEmail === "") {
@@ -38,7 +38,7 @@ export default function App() {
       }, 2000)
     }
   }
-  
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Bem vindo!</Text>
@@ -73,7 +73,7 @@ export default function App() {
           </TouchableOpacity>
         </View>
 
-        {error && <Text>{errorMessage}</Text>} 
+        {error && <Text>{errorMessage}</Text>}
 
         {loading ? (
           <ActivityIndicator
@@ -81,7 +81,7 @@ export default function App() {
             color="#ff6b00"
             style={{ marginTop: 20 }} />
         ) : (
-          <Btn title="Entrar" onPress={entrar}/>)
+          <Btn title="Entrar" onPress={entrar} />)
         }
 
         <Text style={styles.link}>Esqueceu a senha?</Text>

@@ -11,8 +11,8 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import Campo from "../components/Campo"
-import Btn from "../components/Btn";
+import Campo from "../src/components/Campo"
+import Btn from "../src/components/Btn";
 
 export default function App() {
   const [useDark, setDark] = useState(false)
@@ -128,9 +128,14 @@ export default function App() {
 
       <View style={styles.header}>
 
-        <TouchableOpacity style={styles.backButton}>
-          <Text style={[{}, { color: colors.text }]}>Voltar</Text>
-        </TouchableOpacity>
+        <View style={styles.leftButtons}>
+          <TouchableOpacity style={styles.backButton} onPress={() => router.replace("/")}>
+            <Text style={[{}, { color: colors.text }]}>Voltar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.financesButton} onPress={() => router.push("/Finance")}>
+            <Text style={[{}, { color: colors.text }]}>Finanças</Text>
+          </TouchableOpacity>
+        </View>
 
         <View style={styles.headerCenter}>
           <Text style={[styles.headerTitle, { color: colors.text }]}>
@@ -404,6 +409,15 @@ const styles = StyleSheet.create({
   },
   backButton: {
     paddingRight: 8,
+  },
+  leftButtons: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    marginRight: 8
+  },
+  financesButton: {
+    paddingTop: 6,
+    paddingRight: 8
   },
   headerSubtitle: {
     fontSize: 14,
