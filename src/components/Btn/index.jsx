@@ -4,7 +4,7 @@ import {
 } from "react-native";
 import styles from "./styles.js";
 
-export default function Btn({ nav, onPress, title, variant = "primary" }) {
+export default function Btn({ nav, onPress, title, variant = "primary", style }) {
 
     // Seleciona o estilo baseado na prop variant
     const variantStyle = {
@@ -23,7 +23,7 @@ export default function Btn({ nav, onPress, title, variant = "primary" }) {
 
     return (
         <TouchableOpacity
-            style={[styles.buttonBase, variantStyle]}
+            style={[styles.buttonBase, variantStyle, style]}
             onPress={handlePress}
         >
             <Text style={[styles.textBase, textVariantStyle]}>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -11,11 +11,12 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import Campo from "../src/components/Campo"
-import Btn from "../src/components/Btn";
+import Campo from "../components/Campo"
+import Btn from "../components/Btn";
+import { ThemeContext } from '../contexts/ThemeContext';
 
 export default function App() {
-  const [useDark, setDark] = useState(false)
+  const { useDark, toggle } = useContext(ThemeContext)
   const [useTask, setTask] = useState([
     { id: 1, desc: "estudar react native", status: "pendente" },
     { id: 2, desc: "estudar react native", status: "emAndamento" },
@@ -146,11 +147,10 @@ export default function App() {
           </Text>
         </View>
 
-        <TouchableOpacity onPress={() => setDark(!useDark)}>
+        <TouchableOpacity onPress={toggle}>
           <Ionicons
             name={useDark ? "moon" : "sunny"}
             size={24}
-            onPress={() => { setDark(!useDark) }}
             style={[{ color: colors.iconColor }]}
           />
         </TouchableOpacity>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useContext } from "react";
 import {
   View,
   Text,
@@ -11,11 +12,12 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import Campo from "../src/components/Campo";
-import Btn from "../src/components/Btn";
+import Campo from "../components/Campo";
+import Btn from "../components/Btn";
+import { ThemeContext } from '../contexts/ThemeContext';
 
 export default function Finance() {
-  const [useDark, setDark] = useState(false);
+  const { useDark, toggle } = useContext(ThemeContext);
 
   // Lista de ações financeiras
   const [actions, setActions] = useState([
@@ -117,7 +119,7 @@ export default function Finance() {
           </Text>
         </View>
 
-        <TouchableOpacity onPress={() => setDark(!useDark)}>
+        <TouchableOpacity onPress={toggle}>
           <Ionicons
             name={useDark ? "moon" : "sunny"}
             size={24}
@@ -151,7 +153,7 @@ export default function Finance() {
         onPress={openModal}
         activeOpacity={0.8}
       >
-        <Ionicons name="add" size={28} color={useDark ? colors.iconColor : "#fff" } />
+        <Ionicons name="add" size={28} color={useDark ? colors.iconColor : "#fff"} />
       </TouchableOpacity>
 
       {/* Modal de adicionar ação */}
