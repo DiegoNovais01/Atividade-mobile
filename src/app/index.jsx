@@ -52,7 +52,6 @@ export default function App() {
     subText: "#888",
     error: "#ef4444",
     card: "#1a1a1a",
-    accent: "#ff6b00",
     border: "#333",
     input: "#2a2a2a"
   } : {
@@ -66,7 +65,6 @@ export default function App() {
     subText: "#666",
     error: "#ef4444",
     card: "#fff",
-    accent: "#ff6b00",
     border: "#c0c0c0",
     input: "#fff"
   }
@@ -115,7 +113,11 @@ export default function App() {
           </TouchableOpacity>
         </View>
 
-        {error && <Text>{errorMessage}</Text>}
+        {error && (
+          <Text style={{ color: colors.error, marginTop: 10, fontWeight: 500 }}>
+            {errorMessage}
+          </Text>
+        )}
 
         {loading ? (
           <ActivityIndicator

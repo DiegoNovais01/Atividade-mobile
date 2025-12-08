@@ -202,7 +202,9 @@ export default function App() {
 
         {useTask.length === 0 ?
           (
-            <Text>Nenhuma tarefa</Text>
+            <Text style={{ color: colors.text }}>
+              Nenhuma tarefa
+            </Text>
           ) : (
             useTask.map((t, index) => (
               <View
@@ -285,7 +287,7 @@ export default function App() {
 
               <Text style={[styles.modalTitle, { color: colors.text }]}>Nova Tarefa</Text>
 
-              <TouchableOpacity>
+              <TouchableOpacity onPress={closeModal}>
                 <Ionicons
                   name="close"
                   size={24}
@@ -322,7 +324,7 @@ export default function App() {
                           ? "#fff"
                           : colors.text,
                     }]}
-                  > Pendente</Text>
+                  >Pendente</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={[styles.statusButton, {
@@ -341,7 +343,7 @@ export default function App() {
                           ? "#fff"
                           : colors.text,
                     }]}
-                  > Em andaento</Text>
+                  >Em andamento</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={[styles.statusButton, {
@@ -360,7 +362,7 @@ export default function App() {
                           ? "#fff"
                           : colors.text,
                     }]}
-                  > concluido</Text>
+                  >Concluído</Text>
                 </TouchableOpacity>
 
               </View>
@@ -525,9 +527,9 @@ const styles = StyleSheet.create({
   },
   label: {
     borderRadius: 12,
-    borderWidth: 1,
-    padding: 14,
-    fontSize: 15
+    paddingTop: 8,
+    paddingBottom: 18,
+    fontSize: 16
   },
   statusButtons: {
     flexDirection: "row",

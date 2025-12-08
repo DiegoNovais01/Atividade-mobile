@@ -37,7 +37,7 @@ export default function Finance() {
     bg: "#0a0a0a",
     text: "#fff",
     iconColor: "#ff6b00",
-    addColor: "#252525",
+    addColor: "#ff6b00",
     cardSecondary: "#252525",
     succes: "#10b931",
     accent: "#252525",
