@@ -36,7 +36,7 @@ export default function Finance() {
   const colors = useDark ? {
     bg: "#0a0a0a",
     text: "#fff",
-    iconColor: "#ff6b00",
+    iconColor: "#fff",
     addColor: "#ff6b00",
     cardSecondary: "#252525",
     succes: "#10b931",
@@ -123,7 +123,7 @@ export default function Finance() {
           <Ionicons
             name={useDark ? "moon" : "sunny"}
             size={24}
-            style={[{ color: colors.iconColor }]}
+            style={[{ color: colors.iconColor ? "#ff6b00" : "#ff6b00" }]}
           />
         </TouchableOpacity>
       </View>
@@ -133,7 +133,12 @@ export default function Finance() {
         {/* Card de saldo */}
         <View style={[styles.saldoCard, { backgroundColor: colors.accent }]}>
           <Text style={[styles.saldoLabel, { color: useDark ? "#fff" : "#000" }]}>Saldo Total</Text>
-          <Text style={[styles.saldoValue]}>R$ {saldo.toFixed(2).replace(".", ",")}</Text>
+          <Text style={[
+            styles.saldoValue,
+            { color: saldo >= 0 ? colors.succes : colors.error }
+          ]}>
+            R$ {saldo.toFixed(2).replace(".", ",")}
+          </Text>
         </View>
 
         {/* Lista de ações (FlatList + map) */}
@@ -272,7 +277,6 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   saldoValue: {
-    color: "#46b800ff",
     fontSize: 32,
     fontWeight: "bold",
   },

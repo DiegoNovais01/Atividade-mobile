@@ -123,7 +123,7 @@ export default function App() {
           <ActivityIndicator
             size={"small"}
             color="#ff6b00"
-            style={{ marginTop: 20 }} />
+            style={{ marginTop: 22, marginBottom: 8 }} />
         ) : (
           <Btn title="Entrar" onPress={entrar} style={{ marginTop: 18 }} />)
         }

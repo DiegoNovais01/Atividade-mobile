@@ -306,7 +306,9 @@ export default function App() {
                 valor={useNewTask}
                 onText={setNewTask}
               />
+
               <Text style={[styles.label, { color: colors.text }]}>Status</Text>
+
               <View style={[styles.statusButtons]}>
                 <TouchableOpacity style={[styles.statusButton, {
                   backgroundColor:
